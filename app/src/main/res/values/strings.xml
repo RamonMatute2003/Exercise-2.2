@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">Exercise-2.2</string>
+    <string name="pantalla_2">Buscar por individual</string>
+    <string name="btn_seacrh">Buscar</string>
 </resources>
