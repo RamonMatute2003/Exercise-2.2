@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
                             }
 
                             ListView listView=findViewById(R.id.list);
-                            ArrayAdapter<String> adapter=new ArrayAdapter<>(MainActivity.this, android.R.layout.simple_spinner_item, datas);//adapter=adaptador
+                            ArrayAdapter<String> adapter=new ArrayAdapter<>(MainActivity.this, R.layout.list_item_layout, datas);//adapter=adaptador
                             listView.setAdapter(adapter);
 
                         }catch(JSONException e){

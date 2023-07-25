@@ -36,12 +36,15 @@ public class Activity_list extends AppCompatActivity {
 
         EditText txt_search=findViewById(R.id.txt_search);
         Button btn_search=findViewById(R.id.btn_search);
-        onload();
 
         btn_search.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                search(txt_search.getText().toString());
+                if(txt_search.getText().toString().length()!=0){
+                    search(txt_search.getText().toString());
+                }else{
+                    Toast.makeText(getApplicationContext(), "Campo vacio, por favor ponga un ID", Toast.LENGTH_LONG).show();
+                }
             }
         });
     }
@@ -71,7 +74,7 @@ public class Activity_list extends AppCompatActivity {
                             }
 
                             ListView listView=findViewById(R.id.list_search);
-                            ArrayAdapter<String> adapter=new ArrayAdapter<>(Activity_list.this, android.R.layout.simple_spinner_item, datas);//adapter=adaptador
+                            ArrayAdapter<String> adapter=new ArrayAdapter<>(Activity_list.this, R.layout.list_item_layout, datas);//adapter=adaptador
                             listView.setAdapter(adapter);
 
                         } catch (Exception e) {
@@ -88,47 +91,5 @@ public class Activity_list extends AppCompatActivity {
                 });
 
         queue.add(jsonObjectRequest);
-    }
-
-    private void onload(){
-        Rest_api rest_api=new Rest_api();
-        String url;
-        url=rest_api.url;
-
-        RequestQueue queue=Volley.newRequestQueue(this);//queue=cola
-
-        StringRequest request=new StringRequest(Request.Method.GET, url,
-                new Response.Listener<String>(){
-                    @Override
-                    public void onResponse(String response){
-                        try{
-                            JSONArray jsonArray=new JSONArray(response);
-                            String[] datas=new String[jsonArray.length()];
-
-                            for (int i=0; i<jsonArray.length(); i++) {
-                                JSONObject career_object=jsonArray.getJSONObject(i);//career_object=objeto carrera
-                                String id=career_object.getString("id");
-                                String title=career_object.getString("title");
-                                String body=career_object.getString("body");
-                                String data=id+" - "+title+" - "+body;
-                                datas[i]=data;
-                            }
-
-                            ListView listView=findViewById(R.id.list_search);
-                            ArrayAdapter<String> adapter=new ArrayAdapter<>(Activity_list.this, android.R.layout.simple_spinner_item, datas);//adapter=adaptador
-                            listView.setAdapter(adapter);
-
-                        }catch(JSONException e){
-                            Log.e("e",""+e);
-                        }
-                    }
-                },new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Log.e("W",""+error);
-            }
-        });
-
-        queue.add(request);
     }
 }
